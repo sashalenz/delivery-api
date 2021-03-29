@@ -1,41 +1,41 @@
 {
-    "name": ":vendor_name/:package_name",
-    "description": ":package_description",
+    "name": "sashalenz/delivery-api",
+    "description": "Delivery API",
     "keywords": [
-        ":vendor_name",
-        ":package_name"
+        "sashalenz",
+        "delivery-api"
     ],
-    "homepage": "https://github.com/:vendor_name/:package_name",
+    "homepage": "https://github.com/sashalenz/delivery-api",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": "Oleksandr Petrovskyi",
+            "email": "sashalenz@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.0",
         "spatie/laravel-package-tools": "^1.4.3",
+        "spatie/data-transfer-object": "^2.5",
         "illuminate/contracts": "^8.0"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "brianium/paratest": "^6.2",
         "nunomaduro/collision": "^5.3",
         "orchestra/testbench": "^6.15",
         "phpunit/phpunit": "^9.3",
-        "spatie/laravel-ray": "^1.9",
         "vimeo/psalm": "^4.4"
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src",
-            "Spatie\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Sashalenz\\Delivery\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Tests\\": "tests"
+            "Sashalenz\\Delivery\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -49,10 +49,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spatie\\Skeleton\\SkeletonServiceProvider"
+                "Sashalenz\\Delivery\\DeliveryServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "Spatie\\Skeleton\\SkeletonFacade"
+                "Delivery": "Sashalenz\\Delivery\\DeliveryFacade"
             }
         }
     },
