@@ -16,7 +16,7 @@ final class Warehouse extends BaseModel
     {
         return $this->method('GetRegionList')
             ->validate([
-                'country' => ['required', 'numeric', 'in:1,2']
+                'country' => ['required', 'numeric', 'in:1,2'],
             ])
             ->request()
             ->mapInto(RegionDataTransferObject::class);
