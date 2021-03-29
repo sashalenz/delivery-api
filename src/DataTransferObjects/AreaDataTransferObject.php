@@ -30,7 +30,7 @@ class AreaDataTransferObject extends DeliveryDataTransferObject
             'regionName' => $array['regionName'],
             'regionId' => $array['regionId'],
             'country' => $array['country'],
-            'districtName' => $array['districtName']
+            'districtName' => $array['districtName'],
         ]);
     }
 }
