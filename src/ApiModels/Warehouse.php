@@ -3,6 +3,7 @@
 namespace Sashalenz\Delivery\ApiModels;
 
 use Illuminate\Support\Collection;
+use Sashalenz\Delivery\DataTransferObjects\AreaDataTransferObject;
 use Sashalenz\Delivery\DataTransferObjects\RegionDataTransferObject;
 use Sashalenz\Delivery\Exceptions\DeliveryException;
 
@@ -20,14 +21,21 @@ final class Warehouse extends BaseModel
             ])
             ->request()
             ->mapInto(RegionDataTransferObject::class);
+    }
 
-//        return RegionDataTransferObject::collectFromArray(
-//            $this->method('GetRegionList')
-//                ->validate([
-//                    'country' => ['required', 'numeric', 'in:1,2']
-//                ])
-//                ->request()
-//                ->toArray()
-//        );
+    /**
+     * @return Collection
+     * @throws DeliveryException
+     */
+    public function GetAreasList(): Collection
+    {
+        return $this->method('GetAreasList')
+            ->validate([
+                'regionId' => ['required', 'uuid'],
+                'country' => ['nullable', 'numeric', 'in:1,2'],
+                'fl_all' => ['nullable', 'boolean']
+            ])
+            ->request()
+            ->mapInto(AreaDataTransferObject::class);
     }
 }

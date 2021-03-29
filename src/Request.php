@@ -26,8 +26,8 @@ final class Request
         $this->method = $method;
         $this->params = $params;
 
-        $this->publicKey = Config::get('delivery-api.key');
-        $this->secretKey = Config::get('delivery-api.secret');
+        $this->publicKey = Config::get('delivery-api.public_key');
+        $this->secretKey = Config::get('delivery-api.secret_key');
         $this->url = Config::get('delivery-api.url');
     }
 
@@ -37,10 +37,8 @@ final class Request
      */
     public function make(): Collection
     {
-        $this->params['public_key'] = $this->publicKey;
-        $this->params['secret_key'] = $this->secretKey;
-
-        $link = $this->url . '/' . $this->method;
+//        $this->params['public_key'] = $this->publicKey;
+//        $this->params['secret_key'] = $this->secretKey;
 
         try {
             return Http::timeout(self::TIMEOUT)
@@ -48,9 +46,10 @@ final class Request
                     self::RETRY_TIMES,
                     self::RETRY_SLEEP
                 )
+                ->baseUrl($this->url)
                 ->asJson()
-                ->post(
-                    $link,
+                ->get(
+                    $this->method,
                     $this->params
                 )
                 ->throw()
