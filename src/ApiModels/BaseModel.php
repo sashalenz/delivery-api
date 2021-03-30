@@ -20,10 +20,6 @@ abstract class BaseModel
         $this->params['culture'] = Config::get('delivery-api.culture');
     }
 
-    /**
-     * @param int $seconds
-     * @return $this
-     */
     public function cache(int $seconds = -1) : self
     {
         $this->canBeCached = true;

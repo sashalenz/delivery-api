@@ -16,12 +16,12 @@ class AreaDataTransferObject extends DeliveryDataTransferObject
     public bool $RAS;
     public string $regionName;
     public int $country;
-    public string $districtName;
+    public ?string $districtName = null;
 
     public static function fromArray(array $array): self
     {
         return new self([
-            'id' => (int) $array['id'],
+            'id' => $array['id'],
             'name' => $array['name'],
             'regionUUID' => $array['RegionId'],
             'isWarehouse' => $array['IsWarehouse'],
@@ -32,7 +32,7 @@ class AreaDataTransferObject extends DeliveryDataTransferObject
             'regionName' => $array['regionName'],
             'regionId' => $array['regionId'],
             'country' => $array['country'],
-            'districtName' => $array['districtName'],
+            'districtName' => $array['districtName'] ?? null,
         ]);
     }
 }

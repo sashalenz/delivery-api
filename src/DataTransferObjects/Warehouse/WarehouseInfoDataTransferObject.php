@@ -11,18 +11,18 @@ class WarehouseInfoDataTransferObject extends DeliveryDataTransferObject
     public float $latitude;
     public float $longitude;
     public string $cityId;
-    public string $email;
+    public string $cityName;
+    public string $address;
     public string $operatingTime;
     public string $phone;
     public string $emailStorage;
     public bool $office;
-    public string $cityName;
     public bool $isWarehouse;
     public string $rcPhoneSecurity;
     public string $rcPhoneManagers;
     public string $rcPhone;
     public string $rcName;
-    public string $warehouseForDeliveryId;
+    public ?string $warehouseForDeliveryId = null;
     public int $warehouseType;
 
     public static function fromArray(array $array): self
@@ -30,21 +30,21 @@ class WarehouseInfoDataTransferObject extends DeliveryDataTransferObject
         return new self([
             'id' => $array['id'],
             'name' => $array['name'],
-            'latitude' => $array['Latitude'],
-            'longitude' => $array['Longitude'],
+            'latitude' => $array['latitude'],
+            'longitude' => $array['longitude'],
             'cityId' => $array['CityId'],
+            'cityName' => $array['CityName'],
             'address' => $array['address'],
             'operatingTime' => $array['operatingTime'],
             'phone' => $array['Phone'],
             'emailStorage' => $array['EmailStorage'],
             'office' => (bool) $array['Office'],
-            'cityName' => $array['CityName'],
             'isWarehouse' => (bool) $array['IsWarehouse'],
             'rcPhoneSecurity' => $array['RcPhoneSecurity'],
             'rcPhoneManagers' => $array['RcPhoneManagers'],
             'rcPhone' => $array['RcPhone'],
             'rcName' => $array['RcName'],
-            'warehouseForDeliveryId' => $array['WarehouseForDeliveryId'],
+            'warehouseForDeliveryId' => $array['WarehouseForDeliveryId'] ?? null,
             'warehouseType' => (int) $array['WarehouseType']
         ]);
     }

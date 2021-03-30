@@ -97,7 +97,7 @@ final class Warehouse extends BaseModel
      * @return Collection
      * @throws DeliveryException
      */
-    public function GetWarehousesListInDetail(): Collection
+    public function getWarehousesListInDetail(): Collection
     {
         return $this->method('GetWarehousesListInDetail')
             ->validate([
