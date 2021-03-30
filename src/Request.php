@@ -71,7 +71,7 @@ final class Request
         return collect([
             $publicKey,
             $timestamp,
-            hash_hmac('sha1', $publicKey . $timestamp, $secretKey)
+            hash_hmac('sha1', $publicKey . $timestamp, $secretKey),
         ])->implode(':');
     }
 
