@@ -53,7 +53,7 @@ final class Warehouse extends BaseModel
                 'includeRegionalCenters' => ['nullable', 'bool'],
                 'CityId' => ['nullable', 'uuid'],
                 'RegionId' => ['nullable', 'uuid'],
-                'country' => ['nullable', 'numeric', 'in:1,2']
+                'country' => ['nullable', 'numeric', 'in:1,2'],
             ])
             ->request()
             ->map(fn (array $array) => WarehouseDataTransferObject::fromArray($array));
@@ -68,7 +68,7 @@ final class Warehouse extends BaseModel
         return WarehouseInfoDataTransferObject::fromArray(
             $this->method('GetWarehousesInfo')
             ->validate([
-                'WarehousesId' => ['required', 'uuid']
+                'WarehousesId' => ['required', 'uuid'],
             ])
             ->request()
             ->toArray()
@@ -87,7 +87,7 @@ final class Warehouse extends BaseModel
                 'Latitude' => ['nullable', 'numeric'],
                 'count' => ['nullable', 'numeric', 'min:1'],
                 'includeRegionalCenters' => ['nullable', 'boolean'],
-                'CityId' => ['required', 'uuid']
+                'CityId' => ['required', 'uuid'],
             ])
             ->request()
             ->map(fn (array $array) => WarehouseFindDataTransferObject::fromArray($array));
@@ -103,7 +103,7 @@ final class Warehouse extends BaseModel
             ->validate([
                 'country' => ['nullable', 'in:1,2'],
                 'onlyWarehouses' => ['nullable', 'boolean'],
-                'CityId' => ['nullable', 'uuid']
+                'CityId' => ['nullable', 'uuid'],
             ])
             ->request()
             ->map(fn (array $array) => WarehouseInfoDataTransferObject::fromArray($array));
