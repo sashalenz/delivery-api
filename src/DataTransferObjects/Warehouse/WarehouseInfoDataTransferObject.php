@@ -18,10 +18,10 @@ class WarehouseInfoDataTransferObject extends DeliveryDataTransferObject
     public string $emailStorage;
     public bool $office;
     public bool $isWarehouse;
-    public string $rcPhoneSecurity;
-    public string $rcPhoneManagers;
-    public string $rcPhone;
-    public string $rcName;
+    public ?string $rcPhoneSecurity = null;
+    public ?string $rcPhoneManagers = null;
+    public ?string $rcPhone = null;
+    public ?string $rcName = null;
     public ?string $warehouseForDeliveryId = null;
     public int $warehouseType;
 
@@ -40,10 +40,10 @@ class WarehouseInfoDataTransferObject extends DeliveryDataTransferObject
             'emailStorage' => $array['EmailStorage'],
             'office' => (bool) $array['Office'],
             'isWarehouse' => (bool) $array['IsWarehouse'],
-            'rcPhoneSecurity' => $array['RcPhoneSecurity'],
-            'rcPhoneManagers' => $array['RcPhoneManagers'],
-            'rcPhone' => $array['RcPhone'],
-            'rcName' => $array['RcName'],
+            'rcPhoneSecurity' => $array['RcPhoneSecurity'] ?? null,
+            'rcPhoneManagers' => $array['RcPhoneManagers'] ?? null,
+            'rcPhone' => $array['RcPhone'] ?? null,
+            'rcName' => $array['RcName'] ?? null,
             'warehouseForDeliveryId' => $array['WarehouseForDeliveryId'] ?? null,
             'warehouseType' => (int) $array['WarehouseType']
         ]);

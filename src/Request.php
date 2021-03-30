@@ -2,6 +2,7 @@
 
 namespace Sashalenz\Delivery;
 
+use Carbon\Carbon;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -15,19 +16,17 @@ final class Request
     private const RETRY_TIMES = 3;
     private const RETRY_SLEEP = 100;
 
-    private string $publicKey;
-    private string $secretKey;
     private string $url;
     private string $method;
     private array $params;
+    private bool $auth;
 
-    public function __construct(string $method, array $params)
+    public function __construct(string $method, array $params, bool $auth)
     {
         $this->method = $method;
         $this->params = $params;
+        $this->auth = $auth;
 
-        $this->publicKey = Config::get('delivery-api.public_key');
-        $this->secretKey = Config::get('delivery-api.secret_key');
         $this->url = Config::get('delivery-api.url');
     }
 
@@ -37,10 +36,13 @@ final class Request
      */
     public function make(): Collection
     {
-//        $this->params['public_key'] = $this->publicKey;
-//        $this->params['secret_key'] = $this->secretKey;
-
         try {
+            $headers = [];
+
+            if ($this->auth) {
+                $headers['HMACAuthorization'] = 'amx ' . $this->hash();
+            }
+
             return Http::timeout(self::TIMEOUT)
                 ->retry(
                     self::RETRY_TIMES,
@@ -48,6 +50,7 @@ final class Request
                 )
                 ->baseUrl($this->url)
                 ->asJson()
+                ->withHeaders($headers)
                 ->get(
                     $this->method,
                     $this->params
@@ -57,6 +60,19 @@ final class Request
         } catch (RequestException $e) {
             throw new DeliveryException('API Exception: ' . $e->getMessage());
         }
+    }
+
+    private function hash(): string
+    {
+        $publicKey = Config::get('delivery-api.public_key');
+        $secretKey = Config::get('delivery-api.secret_key');
+        $timestamp = Carbon::now()->timestamp;
+
+        return collect([
+            $publicKey,
+            $timestamp,
+            hash_hmac('sha1', $publicKey . $timestamp, $secretKey)
+        ])->implode(':');
     }
 
     public function cache(int $seconds = -1) : Collection

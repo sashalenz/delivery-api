@@ -10,8 +10,10 @@ use Sashalenz\Delivery\Request;
 
 abstract class BaseModel
 {
-    protected bool $canBeCached = false;
-    protected int $cacheSeconds = -1;
+    private bool $canBeCached = false;
+    private int $cacheSeconds = -1;
+    private bool $authRequired = false;
+
     private array $params = [];
     private ?string $method = null;
 
@@ -24,6 +26,20 @@ abstract class BaseModel
     {
         $this->canBeCached = true;
         $this->cacheSeconds = $seconds;
+
+        return $this;
+    }
+
+    public function debug(): self
+    {
+        $this->params['debugMode'] = true;
+
+        return $this;
+    }
+
+    public function auth(): self
+    {
+        $this->authRequired = true;
 
         return $this;
     }
@@ -85,7 +101,7 @@ abstract class BaseModel
             throw new DeliveryException('API Exception: Provide method first');
         }
 
-        $request = new Request($this->method, $this->params);
+        $request = new Request($this->method, $this->params, $this->authRequired);
 
         if ($this->canBeCached) {
             return $request->cache($this->cacheSeconds);

@@ -30,11 +30,11 @@ final class Warehouse extends BaseModel
      * @return Collection
      * @throws DeliveryException
      */
-    public function GetAreasList(): Collection
+    public function getAreasList(): Collection
     {
-        return $this->method('GetAreasList')
+        return $this->method('getAreasList')
             ->validate([
-                'regionId' => ['required', 'uuid'],
+                'regionId' => ['nullable', 'uuid'],
                 'country' => ['nullable', 'numeric', 'in:1,2'],
                 'fl_all' => ['nullable', 'boolean'],
             ])
