@@ -43,7 +43,7 @@ final class Receipt extends BaseModel
                     'dateSend' => ['required', 'date', 'date_format:d.m.Y', 'after_or_equal:today'],
                     'currency' => ['required', 'numeric'],
                     'warehouseSendId' => ['nullable', 'uuid'],
-                    'warehouseResiveId' => ['nullable', 'uuid']
+                    'warehouseResiveId' => ['nullable', 'uuid'],
                 ])
                 ->request()
                 ->get('arrivalDate')
@@ -61,7 +61,7 @@ final class Receipt extends BaseModel
                 'CitySendId' => ['required', 'uuid'],
                 'CityReceiveId' => ['required', 'uuid'],
                 'currency' => ['required', 'numeric'],
-                'formalization' => ['nullable', 'boolean']
+                'formalization' => ['nullable', 'boolean'],
             ])
             ->request()
             ->map(fn (array $array) => DopUslugaClassificationDataTransferObject::fromArray($array));

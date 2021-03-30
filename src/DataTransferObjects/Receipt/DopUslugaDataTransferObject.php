@@ -29,7 +29,7 @@ class DopUslugaDataTransferObject extends DeliveryDataTransferObject
             'maxWidth' => $array['maxWidth'] ?? null,
             'summa' => (float) $array['summa'],
             'comment' => $array['comment'] ?? null,
-            'currency' => (int) $array['currency']
+            'currency' => (int) $array['currency'],
         ]);
     }
 }
