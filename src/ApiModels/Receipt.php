@@ -16,7 +16,7 @@ final class Receipt extends BaseModel
         return ReceiptDataTransferObject::fromArray(
             $this->method('GetReceiptDetails')
                 ->validate([
-                    'number' => ['required', 'string']
+                    'number' => ['required', 'string'],
                 ])
                 ->request()
                 ->toArray()
@@ -36,7 +36,7 @@ final class Receipt extends BaseModel
                 'dateSend' => ['required', 'string'],
                 'currency' => ['required', 'int'],
                 'warehouseSendId' => ['nullable', 'uuid'],
-                'warehouseResiveId' => ['nullable', 'uuid']
+                'warehouseResiveId' => ['nullable', 'uuid'],
             ])
             ->request()
             ->get('arrivalDate');
