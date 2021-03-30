@@ -13,7 +13,7 @@ class DeliverySchemaDataTransferObject extends DeliveryDataTransferObject
     {
         return new self([
             'id' => (int) $array['id'],
-            'name' => $array['name']
+            'name' => $array['name'],
         ]);
     }
 }

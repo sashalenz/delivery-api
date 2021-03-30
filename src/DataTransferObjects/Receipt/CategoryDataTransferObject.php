@@ -41,7 +41,7 @@ class CategoryDataTransferObject extends DeliveryDataTransferObject
             'oformlenieCost' => $array['oformlenieCost'],
             'deliveryCost' => $array['deliveryCost'],
             'documentCost' => $array['documentCost'],
-            'comment' => $array['comment']
+            'comment' => $array['comment'],
         ]);
     }
 }

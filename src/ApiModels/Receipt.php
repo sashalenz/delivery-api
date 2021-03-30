@@ -77,7 +77,7 @@ final class Receipt extends BaseModel
             ->validate([
                 'CitySendId' => ['required', 'uuid'],
                 'CityReceiveId' => ['required', 'uuid'],
-                'WarehouseReceiveId' => ['required', 'uuid']
+                'WarehouseReceiveId' => ['required', 'uuid'],
             ])
             ->request()
             ->map(fn (array $array) => TariffCategoryDataTransferObject::fromArray($array));
@@ -93,7 +93,7 @@ final class Receipt extends BaseModel
             ->validate([
                 'CitySendId' => ['required', 'uuid'],
                 'CityReceiveId' => ['required', 'uuid'],
-                'WarehouseReceiveId' => ['required', 'uuid']
+                'WarehouseReceiveId' => ['required', 'uuid'],
             ])
             ->request()
             ->map(fn (array $array) => DeliverySchemaDataTransferObject::fromArray($array));

@@ -16,7 +16,7 @@ class DopUslugaClassificationDataTransferObject extends DeliveryDataTransferObje
         return new self([
             'classification' => (int) $array['classification'],
             'name' => $array['name'],
-            'dopUsluga' => DopUslugaDataTransferObject::collectFromArray($array['dopUsluga'])
+            'dopUsluga' => DopUslugaDataTransferObject::collectFromArray($array['dopUsluga']),
         ]);
     }
 }

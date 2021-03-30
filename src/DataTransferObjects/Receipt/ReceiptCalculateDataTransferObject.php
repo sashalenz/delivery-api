@@ -80,7 +80,7 @@ class ReceiptCalculateDataTransferObject extends DeliveryDataTransferObject
             'SummaryTransportCost' => $array['SummaryTransportCost'] ?? null,
             'SummaryDuCost' => $array['SummaryDuCost'] ?? null,
             'currency' => $array['currency'],
-            'viewType' => $array['viewType']
+            'viewType' => $array['viewType'],
         ]);
     }
 }
