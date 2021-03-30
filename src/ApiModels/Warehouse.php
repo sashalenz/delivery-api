@@ -36,7 +36,7 @@ final class Warehouse extends BaseModel
             ->validate([
                 'regionId' => ['required', 'uuid'],
                 'country' => ['nullable', 'numeric', 'in:1,2'],
-                'fl_all' => ['nullable', 'boolean']
+                'fl_all' => ['nullable', 'boolean'],
             ])
             ->request()
             ->map(fn (array $array) => AreaDataTransferObject::fromArray($array));
