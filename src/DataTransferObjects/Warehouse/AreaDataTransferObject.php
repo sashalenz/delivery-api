@@ -1,6 +1,8 @@
 <?php
 
-namespace Sashalenz\Delivery\DataTransferObjects;
+namespace Sashalenz\Delivery\DataTransferObjects\Warehouse;
+
+use Sashalenz\Delivery\DataTransferObjects\DeliveryDataTransferObject;
 
 class AreaDataTransferObject extends DeliveryDataTransferObject
 {

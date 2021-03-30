@@ -39,9 +39,9 @@ abstract class BaseModel
         return $this;
     }
 
-    protected function params(array $params): self
+    public function params(array $params): self
     {
-        $this->params = $params;
+        $this->params = array_merge($this->params, $params);
 
         return $this;
     }

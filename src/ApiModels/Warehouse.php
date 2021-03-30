@@ -3,8 +3,11 @@
 namespace Sashalenz\Delivery\ApiModels;
 
 use Illuminate\Support\Collection;
-use Sashalenz\Delivery\DataTransferObjects\AreaDataTransferObject;
-use Sashalenz\Delivery\DataTransferObjects\RegionDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Warehouse\AreaDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Warehouse\RegionDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Warehouse\WarehouseDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Warehouse\WarehouseFindDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Warehouse\WarehouseInfoDataTransferObject;
 use Sashalenz\Delivery\Exceptions\DeliveryException;
 
 final class Warehouse extends BaseModel
@@ -20,7 +23,7 @@ final class Warehouse extends BaseModel
                 'country' => ['required', 'numeric', 'in:1,2'],
             ])
             ->request()
-            ->mapInto(RegionDataTransferObject::class);
+            ->map(fn (array $array) => RegionDataTransferObject::fromArray($array));
     }
 
     /**
@@ -36,6 +39,73 @@ final class Warehouse extends BaseModel
                 'fl_all' => ['nullable', 'boolean']
             ])
             ->request()
-            ->mapInto(AreaDataTransferObject::class);
+            ->map(fn (array $array) => AreaDataTransferObject::fromArray($array));
+    }
+
+    /**
+     * @return Collection
+     * @throws DeliveryException
+     */
+    public function getWarehousesList(): Collection
+    {
+        return $this->method('GetWarehousesList')
+            ->validate([
+                'includeRegionalCenters' => ['nullable', 'bool'],
+                'CityId' => ['nullable', 'uuid'],
+                'RegionId' => ['nullable', 'uuid'],
+                'country' => ['nullable', 'numeric', 'in:1,2']
+            ])
+            ->request()
+            ->map(fn (array $array) => WarehouseDataTransferObject::fromArray($array));
+    }
+
+    /**
+     * @return WarehouseInfoDataTransferObject
+     * @throws DeliveryException
+     */
+    public function getWarehousesInfo(): WarehouseInfoDataTransferObject
+    {
+        return WarehouseInfoDataTransferObject::fromArray(
+            $this->method('GetWarehousesInfo')
+            ->validate([
+                'WarehousesId' => ['required', 'uuid']
+            ])
+            ->request()
+            ->toArray()
+        );
+    }
+
+    /**
+     * @return Collection
+     * @throws DeliveryException
+     */
+    public function getFindWarehouses(): Collection
+    {
+        return $this->method('GetFindWarehouses')
+            ->validate([
+                'Longitude' => ['nullable', 'numeric'],
+                'Latitude' => ['nullable', 'numeric'],
+                'count' => ['nullable', 'numeric', 'min:1'],
+                'includeRegionalCenters' => ['nullable', 'boolean'],
+                'CityId' => ['required', 'uuid']
+            ])
+            ->request()
+            ->map(fn (array $array) => WarehouseFindDataTransferObject::fromArray($array));
+    }
+
+    /**
+     * @return Collection
+     * @throws DeliveryException
+     */
+    public function GetWarehousesListInDetail(): Collection
+    {
+        return $this->method('GetWarehousesListInDetail')
+            ->validate([
+                'country' => ['nullable', 'in:1,2'],
+                'onlyWarehouses' => ['nullable', 'boolean'],
+                'CityId' => ['nullable', 'uuid']
+            ])
+            ->request()
+            ->map(fn (array $array) => WarehouseInfoDataTransferObject::fromArray($array));
     }
 }
