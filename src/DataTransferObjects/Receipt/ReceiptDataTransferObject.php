@@ -60,7 +60,7 @@ class ReceiptDataTransferObject extends DeliveryDataTransferObject
             'citySendName' => $array['CitySendName'],
             'cityReceiveName' => $array['CityReceiveName'],
             'deliveryType' => (int) $array['DeliveryType'],
-            'statusesDecoding' => $array['StatusesDecoding']
+            'statusesDecoding' => $array['StatusesDecoding'],
         ]);
     }
 }

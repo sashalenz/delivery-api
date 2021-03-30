@@ -19,7 +19,7 @@ final class Receipt extends BaseModel
         return ReceiptDataTransferObject::fromArray(
             $this->method('GetReceiptDetails')
                 ->validate([
-                    'number' => ['required', 'string']
+                    'number' => ['required', 'string'],
                 ])
                 ->request()
                 ->toArray()

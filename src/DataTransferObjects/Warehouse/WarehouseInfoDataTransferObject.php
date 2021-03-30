@@ -45,7 +45,7 @@ class WarehouseInfoDataTransferObject extends DeliveryDataTransferObject
             'rcPhone' => $array['RcPhone'] ?? null,
             'rcName' => $array['RcName'] ?? null,
             'warehouseForDeliveryId' => $array['WarehouseForDeliveryId'] ?? null,
-            'warehouseType' => (int) $array['WarehouseType']
+            'warehouseType' => (int) $array['WarehouseType'],
         ]);
     }
 }
