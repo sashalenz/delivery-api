@@ -17,10 +17,10 @@ class ReceiptCalculateDataTransferObject extends DeliveryDataTransferObject
     public string $areasResiveIdName;
     public string $warehouseSendIdName;
     public string $warehouseResiveIdName;
-    public float $cashOnDeliveryValue;
-    public int $cashOnDeliveryValuta;
-    public float $insuranceValue;
-    public float $insuranceCost;
+    public ?float $cashOnDeliveryValue;
+    public ?int $cashOnDeliveryValuta;
+    public ?float $insuranceValue;
+    public ?float $insuranceCost;
     public Carbon $dateSend;
     public Carbon $dateResive;
     public int $climbingToFloor;
@@ -32,10 +32,10 @@ class ReceiptCalculateDataTransferObject extends DeliveryDataTransferObject
     public ?float $allSumma;
     public bool $status;
     public bool $denyIssue;
-    public bool $economDelivery;
-    public bool $economPickUp;
-    public bool $isGidrobort;
-    public bool $isOverSize;
+    public ?bool $economDelivery;
+    public ?bool $economPickUp;
+    public ?bool $isGidrobort;
+    public ?bool $isOverSize;
     public bool $isPostomat;
     public string $comment;
     public ?float $summaryTransportCost;
@@ -80,7 +80,7 @@ class ReceiptCalculateDataTransferObject extends DeliveryDataTransferObject
             'SummaryTransportCost' => $array['SummaryTransportCost'] ?? null,
             'SummaryDuCost' => $array['SummaryDuCost'] ?? null,
             'currency' => $array['currency'],
-            'viewType' => $array['viewType']
+            'viewType' => $array['viewType'],
         ]);
     }
 }

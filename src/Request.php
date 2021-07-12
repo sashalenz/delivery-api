@@ -12,7 +12,7 @@ use Sashalenz\Delivery\Exceptions\DeliveryException;
 
 final class Request
 {
-    private const TIMEOUT = 3;
+    private const TIMEOUT = 10;
     private const RETRY_TIMES = 3;
     private const RETRY_SLEEP = 100;
 
@@ -20,12 +20,21 @@ final class Request
     private string $method;
     private array $params;
     private bool $auth;
+    private string $dataKey;
+    private bool $isPost;
 
-    public function __construct(string $method, array $params, bool $auth)
-    {
+    public function __construct(
+        string $method,
+        array $params,
+        bool $auth,
+        string $dataKey,
+        bool $isPost = false
+    ) {
         $this->method = $method;
         $this->params = $params;
         $this->auth = $auth;
+        $this->dataKey = $dataKey;
+        $this->isPost = $isPost;
 
         $this->url = Config::get('delivery-api.url');
     }
@@ -43,20 +52,37 @@ final class Request
                 $headers['HMACAuthorization'] = 'amx ' . $this->hash();
             }
 
-            return Http::timeout(self::TIMEOUT)
+            $request = Http::timeout(self::TIMEOUT)
                 ->retry(
                     self::RETRY_TIMES,
                     self::RETRY_SLEEP
                 )
                 ->baseUrl($this->url)
                 ->asJson()
-                ->withHeaders($headers)
-                ->get(
-                    $this->method,
-                    $this->params
-                )
-                ->throw()
-                ->collect('data');
+                ->withHeaders($headers);
+
+            if ($this->isPost) {
+                $request = $request
+                    ->post(
+                        $this->method,
+                        $this->params
+                    )
+                    ->throw();
+            } else {
+                $request = $request
+                    ->get(
+                        $this->method,
+                        $this->params
+                    )
+                    ->throw();
+            }
+
+            if ((bool)$request->collect()->get('status') !== true) {
+                throw new DeliveryException('API Warning: ' . print_r($request->collect()->get('message'),1));
+            }
+
+            return $request->collect($this->dataKey);
+
         } catch (RequestException $e) {
             throw new DeliveryException('API Exception: ' . $e->getMessage());
         }

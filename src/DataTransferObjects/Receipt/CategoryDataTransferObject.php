@@ -32,16 +32,16 @@ class CategoryDataTransferObject extends DeliveryDataTransferObject
             'countPlace' => $array['countPlace'],
             'helf' => $array['helf'],
             'size' => $array['size'],
-            'height' => $array['height'],
-            'lenght' => $array['lenght'],
-            'width' => $array['width'],
+            'height' => (float) $array['height'],
+            'lenght' => (float) $array['lenght'],
+            'width' => (float) $array['width'],
             'helfTarif' => $array['helfTarif'],
             'egTarif' => $array['egTarif'],
             'oformlenie' => $array['oformlenie'],
             'oformlenieCost' => $array['oformlenieCost'],
             'deliveryCost' => $array['deliveryCost'],
             'documentCost' => $array['documentCost'],
-            'comment' => $array['comment']
+            'comment' => $array['comment'],
         ]);
     }
 }

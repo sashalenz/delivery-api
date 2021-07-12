@@ -13,6 +13,8 @@ abstract class BaseModel
     private bool $canBeCached = false;
     private int $cacheSeconds = -1;
     private bool $authRequired = false;
+    private bool $isPost = false;
+    private string $dataKey = 'data';
 
     private array $params = [];
     private ?string $method = null;
@@ -40,6 +42,20 @@ abstract class BaseModel
     public function auth(): self
     {
         $this->authRequired = true;
+
+        return $this;
+    }
+
+    public function post(): self
+    {
+        $this->isPost = true;
+
+        return $this;
+    }
+
+    public function dataKey(string $dataKey): self
+    {
+        $this->dataKey = $dataKey;
 
         return $this;
     }
@@ -101,7 +117,13 @@ abstract class BaseModel
             throw new DeliveryException('API Exception: Provide method first');
         }
 
-        $request = new Request($this->method, $this->params, $this->authRequired);
+        $request = new Request(
+            $this->method,
+            $this->params,
+            $this->authRequired,
+            $this->dataKey,
+            $this->isPost
+        );
 
         if ($this->canBeCached) {
             return $request->cache($this->cacheSeconds);

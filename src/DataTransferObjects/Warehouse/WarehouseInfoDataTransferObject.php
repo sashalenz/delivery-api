@@ -38,14 +38,14 @@ class WarehouseInfoDataTransferObject extends DeliveryDataTransferObject
             'operatingTime' => $array['operatingTime'],
             'phone' => $array['Phone'],
             'emailStorage' => $array['EmailStorage'],
-            'office' => (bool) $array['Office'],
+            'office' => isset($array['Office']) ? (bool)$array['Office'] : false,
             'isWarehouse' => (bool) $array['IsWarehouse'],
             'rcPhoneSecurity' => $array['RcPhoneSecurity'] ?? null,
             'rcPhoneManagers' => $array['RcPhoneManagers'] ?? null,
             'rcPhone' => $array['RcPhone'] ?? null,
             'rcName' => $array['RcName'] ?? null,
             'warehouseForDeliveryId' => $array['WarehouseForDeliveryId'] ?? null,
-            'warehouseType' => (int) $array['WarehouseType'],
+            'warehouseType' => isset($array['WarehouseType']) ? (int) $array['WarehouseType'] : 0,
         ]);
     }
 }

@@ -4,11 +4,17 @@ namespace Sashalenz\Delivery\ApiModels;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Sashalenz\Delivery\DataTransferObjects\BaseDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Receipt\CreatedAddressDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Receipt\CreatedClientDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Receipt\CreatedReceiptDataTransferObject;
 use Sashalenz\Delivery\DataTransferObjects\Receipt\DeliverySchemaDataTransferObject;
 use Sashalenz\Delivery\DataTransferObjects\Receipt\DopUslugaClassificationDataTransferObject;
 use Sashalenz\Delivery\DataTransferObjects\Receipt\ReceiptCalculateDataTransferObject;
 use Sashalenz\Delivery\DataTransferObjects\Receipt\ReceiptDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Receipt\SenderDataTransferObject;
 use Sashalenz\Delivery\DataTransferObjects\Receipt\TariffCategoryDataTransferObject;
+use Sashalenz\Delivery\DataTransferObjects\Warehouse\WarehouseInfoDataTransferObject;
 use Sashalenz\Delivery\Exceptions\DeliveryException;
 
 final class Receipt extends BaseModel
@@ -77,7 +83,7 @@ final class Receipt extends BaseModel
             ->validate([
                 'CitySendId' => ['required', 'uuid'],
                 'CityReceiveId' => ['required', 'uuid'],
-                'WarehouseReceiveId' => ['required', 'uuid']
+                'WarehouseReceiveId' => ['required', 'uuid'],
             ])
             ->request()
             ->map(fn (array $array) => TariffCategoryDataTransferObject::fromArray($array));
@@ -93,7 +99,7 @@ final class Receipt extends BaseModel
             ->validate([
                 'CitySendId' => ['required', 'uuid'],
                 'CityReceiveId' => ['required', 'uuid'],
-                'WarehouseReceiveId' => ['required', 'uuid']
+                'WarehouseReceiveId' => ['required', 'uuid'],
             ])
             ->request()
             ->map(fn (array $array) => DeliverySchemaDataTransferObject::fromArray($array));
@@ -123,8 +129,91 @@ final class Receipt extends BaseModel
                     'dopUslugaClassificator.*.dopUsluga.*.uslugaId' => ['required', 'uuid'],
                     'dopUslugaClassificator.*.dopUsluga.*.count' => ['required', 'numeric', 'min:1'],
                 ])
+                ->post()
                 ->request()
                 ->toArray()
         );
+    }
+
+    /**
+     * @return Collection
+     * @throws DeliveryException
+     */
+    public function getClientCards(): Collection
+    {
+        return $this->method('GetClientCards')
+            ->auth()
+            ->request()
+            ->map(fn (array $array) => BaseDataTransferObject::fromArray($array));
+    }
+
+    /**
+     * @return Collection
+     * @throws DeliveryException
+     */
+    public function getClientInvoices(): Collection
+    {
+        return $this->method('GetClientInvoices')
+            ->auth()
+            ->request()
+            ->map(fn (array $array) => BaseDataTransferObject::fromArray($array));
+    }
+
+    /**
+     * @return Collection
+     * @throws DeliveryException
+     */
+    public function getCargoCategory(): Collection
+    {
+        return $this->method('GetCargoCategory')
+            ->auth()
+            ->request()
+            ->map(fn (array $array) => BaseDataTransferObject::fromArray($array));
+    }
+
+    public function postCreateReceipts(): Collection
+    {
+        return $this->method('PostCreateReceipts')
+            ->validate([
+                'receiptsList' => 'array',
+            ])
+            ->auth()
+            ->debug()
+            ->dataKey('receipts')
+            ->post()
+            ->request()
+            ->map(fn (array $array) => CreatedReceiptDataTransferObject::fromArray($array));
+    }
+
+    public function getSenderList(): Collection
+    {
+        return $this->method('GetSenderList')
+            ->auth()
+            ->request()
+            ->map(fn (array $array) => SenderDataTransferObject::fromArray($array));
+    }
+
+    public function postCreateAddressOrClient(): Collection
+    {
+        $response = $this->method('PostCreateAddressOrClient')
+            ->auth()
+            ->post()
+            ->request();
+
+        return collect([
+            'address' => CreatedAddressDataTransferObject::fromArray($response['address']),
+            'client' => CreatedClientDataTransferObject::fromArray($response['account'])
+        ]);
+    }
+
+    public function getWarehousesListByCity(): Collection
+    {
+        return $this->method('GetWarehousesListByCity')
+            ->validate([
+                'CityId' => ['required', 'uuid'],
+                'DirectionType' => ['required', 'boolean']
+            ])
+            ->request()
+            ->map(fn (array $array) => WarehouseInfoDataTransferObject::fromArray($array));
     }
 }
