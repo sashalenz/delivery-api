@@ -18,7 +18,7 @@
         "php": "^8.0",
         "nesbot/carbon": "^2.46",
         "spatie/laravel-package-tools": "^1.6",
-        "spatie/data-transfer-object": "^2.5",
+        "spatie/data-transfer-object": "^3.7",
         "illuminate/contracts": "^8.0"
     },
     "require-dev": {
